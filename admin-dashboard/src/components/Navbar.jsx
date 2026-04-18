@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, Users, Box, Factory, LogOut, Menu } from 'lucide-react'
+import { LayoutDashboard, Users, Box, Factory, LogOut, Menu, User } from 'lucide-react'
+import { useAuth } from '../context/AuthContext'
 
 const navItems = [
   { label: 'Clientes', path: '/clientes', icon: Box },
@@ -9,6 +10,8 @@ const navItems = [
 ]
 
 function Navbar() {
+  const { usuario } = useAuth()
+
   return (
     <>
       <header className="flex items-center justify-between bg-slate-950 px-5 py-4 text-slate-100 md:hidden">
@@ -62,12 +65,22 @@ function Navbar() {
           </div>
         </nav>
 
-        <div className="mt-auto border-t border-slate-800 px-6 py-6">
-          <div className="rounded-3xl bg-slate-900 p-4 text-sm text-slate-300 shadow-soft">
-            <p className="text-slate-400">Proyecto académico</p>
-            <p className="mt-2 text-sm text-slate-200">Dashboard moderno con React, Tailwind y rutas.</p>
+        {/* Usuario logueado */}
+        {usuario && (
+          <div className="mt-auto border-t border-slate-800 px-6 py-4">
+            <div className="rounded-2xl bg-slate-900 p-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-cyan-500 rounded-full flex items-center justify-center">
+                  <User className="h-5 w-5 text-slate-900" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-white truncate">{usuario.nombre}</p>
+                  <p className="text-xs text-cyan-400">{usuario.rol}</p>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
+        )}
       </aside>
     </>
   )
